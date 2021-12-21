@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:persistent_theme/MyDrawer.dart';
 import 'dart:async';
 
-StreamController<int> streamController = StreamController<int>();
+StreamController<bool> streamController = StreamController<bool>();
 
 void main() => runApp(MyApp(streamController.stream));
 
 class MyApp extends StatefulWidget {
   const MyApp(this.stream);
-  final Stream<int> stream;
+  final Stream<bool> stream;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -24,14 +24,14 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void mySetState(int value) {
+  void mySetState(value) {
     setState(() {
-      if (value == 1) {
+      if (isDark) {
         currentTheme = ThemeMode.light;
         themeIcon = const Icon(Icons.light_mode);
         isDark = false;
       }
-      if (value == 0) {
+      else if (!isDark) {
         currentTheme = ThemeMode.dark;
         themeIcon = const Icon(Icons.dark_mode);
         isDark = true;

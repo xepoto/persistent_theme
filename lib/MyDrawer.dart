@@ -29,12 +29,7 @@ class _MyDrawerState extends State<MyDrawer> {
               onChanged: (value) {
                 setState(() {});
                 _isSwitched = value;
-                if (isDark) {
-                  streamController.add(1);
-                }
-                if (!isDark) {
-                  streamController.add(0);
-                }
+                streamController.add(value);
               },
             ),
           ),
