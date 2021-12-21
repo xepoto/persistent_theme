@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:persistent_theme/MyDrawer.dart';
 import 'dart:async';
 
-StreamController<bool> streamController = StreamController<bool>();
+StreamController<bool> themeController = StreamController<bool>();
 
-void main() => runApp(MyApp(streamController.stream));
+void main() => runApp(MyApp(themeController.stream));
 
 class MyApp extends StatefulWidget {
   const MyApp(this.stream);
@@ -20,18 +20,17 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     widget.stream.listen((value) {
-      mySetState(value);
+      mySetState();
     });
   }
 
-  void mySetState(value) {
+  void mySetState() {
     setState(() {
       if (isDark) {
         currentTheme = ThemeMode.light;
         themeIcon = const Icon(Icons.light_mode);
         isDark = false;
-      }
-      else if (!isDark) {
+      } else if (!isDark) {
         currentTheme = ThemeMode.dark;
         themeIcon = const Icon(Icons.dark_mode);
         isDark = true;
@@ -79,7 +78,7 @@ class _MyAppState extends State<MyApp> {
                           isDark = false;
                         }
                         // funciona se for else
-                        if (!isDark) {
+                        else if (!isDark) {
                           currentTheme = ThemeMode.dark;
                           themeIcon = const Icon(Icons.dark_mode);
                           isDark = true;
