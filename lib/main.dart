@@ -78,6 +78,7 @@ class _MyAppState extends State<MyApp> {
                           themeIcon = const Icon(Icons.light_mode);
                           isDark = false;
                         }
+                        // funciona se for else
                         if (!isDark) {
                           currentTheme = ThemeMode.dark;
                           themeIcon = const Icon(Icons.dark_mode);
