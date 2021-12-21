@@ -22,6 +22,7 @@ class _MyDrawerState extends State<MyDrawer> {
         children: [
           const Text('testando'),
           FractionallySizedBox(
+            widthFactor: 0.4,
             child: SwitchListTile(
               secondary: themeIcon,
               value: _isSwitched,
