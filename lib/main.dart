@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text("Simple Theme"),
         ),
-        drawer: MyDrawer(),
+        drawer: const MyDrawer(),
         body: Column(
           children: [
             Container(
@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             ),
-            Text('$isDark')
+            Text('isDark = $isDark')
           ],
         ),
       ),

@@ -19,8 +19,8 @@ class _MyDrawerState extends State<MyDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('testando'),
           FractionallySizedBox(
             widthFactor: 0.4,
             child: SwitchListTile(
@@ -37,7 +37,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 }
               },
             ),
-          )
+          ),
         ],
       ),
     );
