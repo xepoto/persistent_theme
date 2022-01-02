@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 
-bool isDark = false;
 var themeIcon = const Icon(Icons.light_mode);
 var currentTheme = ThemeMode.light;
 
@@ -13,27 +12,40 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  bool _isSwitched = isDark;
+  bool _isSwitched = isDark!;
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FractionallySizedBox(
-            widthFactor: 0.4,
-            child: SwitchListTile(
-              secondary: themeIcon,
-              value: _isSwitched,
-              onChanged: (value) {
-                setState(() {});
-                _isSwitched = value;
-                themeController.add(value);
-              },
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.3,
+      //width: MediaQuery.of(context).size.width * 0.50,
+      child: Drawer(
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+           const DrawerHeader(
+              child:  Center(
+                child: Text('titulo!!', style: TextStyle(
+                  fontSize: 30
+                ),),
+              ),
             ),
-          ),
-        ],
+            Container(
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: SwitchListTile(
+                secondary: themeIcon,
+                value: _isSwitched,
+                onChanged: (value) {
+                  setState(() {});
+                  _isSwitched = value;
+                  changeTheme();
+                  themeController.add(value);
+                  saveCurrentTheme();
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,10 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_theme/MyDrawer.dart';
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+
+//TODO: voltar ao código enviando valor bool no stream
+
+void main() {
+  //SharedPreferences.setMockInitialValues(values);
+
+  runApp(MyApp(themeController.stream));
+}
+
+bool? isDark = false;
 
 StreamController<bool> themeController = StreamController<bool>();
 
-void main() => runApp(MyApp(themeController.stream));
+Map<String, bool> values = <String, bool>{'isDark': true};
+
+void changeTheme() {
+  if (isDark!) {
+    currentTheme = ThemeMode.light;
+    themeIcon = const Icon(Icons.light_mode);
+    isDark = false;
+  } else if (!isDark!) {
+    currentTheme = ThemeMode.dark;
+    themeIcon = const Icon(Icons.dark_mode);
+    isDark = true;
+  }
+}
+
+void setTheme() {
+  if (isDark!) {
+    currentTheme = ThemeMode.dark;
+    themeIcon = const Icon(Icons.dark_mode);
+  } else if (!isDark!) {
+    currentTheme = ThemeMode.light;
+    themeIcon = const Icon(Icons.light_mode);
+  }
+}
+
+void getCurrentTheme() async {
+  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  prefs.then((prefs) {
+    print('pegando tema');
+    isDark = prefs.getBool('isDark');
+    print('peguei, é $isDark');
+  });
+}
+
+void getTheme() async {
+  bool? darkS;
+  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  prefs.then((prefs) {
+    print('pegando tema');
+    darkS = prefs.getBool('isDark');
+    print('peguei, é $darkS');
+    isDark = darkS;
+  });
+}
+
+void saveCurrentTheme() async {
+  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  prefs.then((prefs) {
+    print('salvando tema');
+    prefs.setBool('isDark', isDark!);
+    bool? teste = prefs.getBool('isDark');
+    print('setei como $teste');
+  });
+}
 
 class MyApp extends StatefulWidget {
   const MyApp(this.stream);
@@ -15,7 +78,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _isSwitched = isDark;
+  bool _isSwitched = isDark!;
   @override
   void initState() {
     super.initState();
@@ -25,17 +88,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void mySetState() {
-    setState(() {
-      if (isDark) {
-        currentTheme = ThemeMode.light;
-        themeIcon = const Icon(Icons.light_mode);
-        isDark = false;
-      } else if (!isDark) {
-        currentTheme = ThemeMode.dark;
-        themeIcon = const Icon(Icons.dark_mode);
-        isDark = true;
-      }
-    });
+    setState(() {});
   }
 
   @override
@@ -55,6 +108,13 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: currentTheme,
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            getTheme();
+            setTheme();
+            setState(() {});
+          },
+        ),
         appBar: AppBar(
           title: const Text("Simple Theme"),
         ),
@@ -71,14 +131,14 @@ class _MyAppState extends State<MyApp> {
                   onChanged: (value) {
                     setState(
                       () {
-                        _isSwitched = value;
-                        if (isDark) {
+                        _isSwitched = isDark!;
+                        if (isDark!) {
                           currentTheme = ThemeMode.light;
                           themeIcon = const Icon(Icons.light_mode);
                           isDark = false;
                         }
                         // funciona se for else
-                        else if (!isDark) {
+                        else if (!isDark!) {
                           currentTheme = ThemeMode.dark;
                           themeIcon = const Icon(Icons.dark_mode);
                           isDark = true;
@@ -89,7 +149,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             ),
-            Text('isDark = $isDark')
+            Text('isDark = $isDark'),
           ],
         ),
       ),
